@@ -36,7 +36,7 @@ class ElasticEngine extends Engine
     public function __construct(Elastic $elastic, $index)
     {
         $this->elastic = $elastic;
-        
+
         $this->index = $index;
     }
 
@@ -107,10 +107,12 @@ class ElasticEngine extends Engine
             $body->push($searchableArray);
         });
 
-        $this->elastic->bulk([
-            'refresh' => true,
-            'body' => $body->all(),
-        ]);
+        if ($body->count()) {
+            $this->elastic->bulk([
+                'refresh' => true,
+                'body' => $body->all(),
+            ]);
+        }
     }
 
     /**
@@ -133,10 +135,12 @@ class ElasticEngine extends Engine
             ]);
         });
 
-        $this->elastic->bulk([
-            'refresh' => true,
-            'body' => $body->all(),
-        ]);
+        if ($body->count()) {
+            $this->elastic->bulk([
+                'refresh' => true,
+                'body' => $body->all(),
+            ]);
+        }
     }
 
     /**
